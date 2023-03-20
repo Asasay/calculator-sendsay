@@ -1,0 +1,81 @@
+@import "../../styles/colors.scss";
+
+.switchButton {
+  background: $neutral-light;
+  border-radius: 6px;
+  overflow: hidden;
+  width: 106px;
+  text-align: center;
+  line-height: 15px;
+  color: $trout;
+  position: relative;
+  padding: 2px 1px;
+  padding-right: 136px;
+  position: relative;
+
+  &:before {
+    content: "Constructor";
+    background-image: url("../../images/selector.svg");
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: -2px 9px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -8px;
+    width: 125px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  &Checkbox {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 2;
+
+    &:checked + .switchButtonLabel:before {
+      width: 125px;
+      transform: translateX(114px);
+      transition: all 300ms linear;
+    }
+
+    & + .switchButtonLabel {
+      position: relative;
+      padding: 7px 0;
+      display: block;
+      user-select: none;
+      pointer-events: none;
+
+      &:before {
+        content: "";
+        background: #fff;
+        height: 100%;
+        width: 106px;
+        position: absolute;
+        left: 0;
+        top: -1px;
+        border: 1px solid $neutral;
+        border-radius: 5px;
+        transform: translateX(0);
+        transition: all 300ms linear;
+      }
+
+      .switchButtonLabelSpan {
+        position: relative;
+        img {
+          vertical-align: middle;
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+}
