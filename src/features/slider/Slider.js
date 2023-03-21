@@ -1,12 +1,15 @@
 import React from "react";
 import styles from "./Slider.module.scss";
 import eye from "../../images/eye.svg";
+import { toggleMode, selectMode } from "../../calculator/calculatorSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function Slider(props) {
-  const [checked, setChecked] = React.useState(true);
+  const mode = useSelector(selectMode);
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
-    setChecked(event.target.checked);
+    dispatch(toggleMode());
   };
 
   return (
@@ -15,7 +18,7 @@ function Slider(props) {
         <input
           className={styles.switchButtonCheckbox}
           type="checkbox"
-          checked={checked}
+          checked={mode === "constructor"}
           onChange={handleChange}
         ></input>
         <label className={styles.switchButtonLabel} for="">

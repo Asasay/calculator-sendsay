@@ -6,22 +6,25 @@ import Numpad from "./features/Numpad";
 import Button from "./features/Button";
 import Slider from "./features/slider/Slider";
 import Constructor from "./features/Constructor";
+import Section from "./features/Section";
 
 function Calculator() {
   return (
     <div id="calc-wrapper">
-      <div className="block-wrapper">
+      <Section className="block-wrapper">
         <Display />
         <Operators />
         <Numpad />
         <div className="bar bar-equal">
           <Button type="=" id="equal" />
         </div>
-      </div>
-      <div className="block-wrapper">
+      </Section>
+      <Section className="block-wrapper constructor">
         <Slider className="slider" />
-        <Constructor />
-      </div>
+        <Operators />
+        <Display />
+        <Numpad />
+      </Section>
     </div>
   );
 }
