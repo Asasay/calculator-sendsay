@@ -21,7 +21,7 @@ function Slider(props) {
           checked={mode === "constructor"}
           onChange={handleChange}
         ></input>
-        <label className={styles.switchButtonLabel} for="">
+        <label className={styles.switchButtonLabel} htmlFor="">
           <span className={styles.switchButtonLabelSpan}>
             <img src={eye} alt="slider icon" />
             Runtime

@@ -1,7 +1,13 @@
-import React from "react";
+import React, { createContext } from "react";
 
-function Section({ children, className }) {
-  return <section className={className}>{children}</section>;
+export const SectionContext = createContext("elements");
+
+function Section({ children, className, context }) {
+  return (
+    <SectionContext.Provider value={context}>
+      <section className={className}>{children}</section>
+    </SectionContext.Provider>
+  );
 }
 
 export default Section;
