@@ -9,18 +9,20 @@ export function Draggable(props) {
   const isInConstructor =
     props.constructorBars &&
     props.constructorBars.findIndex((b) => b.bar === props.data.bar) !== -1;
+  const displayInConstructor = props.id === "Display_constructor";
 
   const { attributes, listeners, setNodeRef, transform, transition, isOver } =
     useSortable({
       id: props.id,
       data: props.data,
-      disabled: mode === "runtime" || isInConstructor,
+      disabled: mode === "runtime" || isInConstructor || displayInConstructor,
     });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isInConstructor ? 0.5 : 1,
+    cursor: displayInConstructor ? "not-allowed" : "",
   };
 
   const deleteItem = () => {

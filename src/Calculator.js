@@ -103,7 +103,7 @@ function Calculator() {
 
   function handleDragEnd(event) {
     const { active, over } = event;
-    // Skip if the active and over elements are the same or over a left container
+    // Skip if the active and over elements are the same OR over a left container OR its display in  the right panel
     if (active.id === over.id || over.data.current?.container === "Elements")
       return;
 
@@ -140,13 +140,19 @@ function Calculator() {
         var constructorBarsArray = constructorBars.slice();
         // Insert the new bar if the active bar is from the left panel
         if (active.data.current.container === "Elements") {
-          constructorBarsArray.splice(newIndex, 0, newConstructorBar);
+          // Display can be only on top
+          if (active.id === "Display_Element") {
+            constructorBarsArray.splice(0, 0, newConstructorBar);
+          } else {
+            constructorBarsArray.splice(newIndex, 0, newConstructorBar);
+          }
           return constructorBarsArray;
         }
         // Else move the active bar to the new position
-        if (newIndex > oldIndex)
+        if (newIndex > oldIndex) {
           // Move Down in the list
           return arrayMove(constructorBars, oldIndex, newIndex - 1);
+        }
         // Move Up in the list
         else return arrayMove(constructorBars, oldIndex, newIndex);
       });
