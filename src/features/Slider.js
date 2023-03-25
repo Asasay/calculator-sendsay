@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "./Slider.module.scss";
-import eye from "../../images/eye.svg";
-import { toggleMode, selectMode } from "../../calculator/calculatorSlice";
+import styles from "../styles/Slider.module.scss";
+import eye from "../images/eye.svg";
+import { toggleMode, selectMode } from "../calculatorRedux/calculatorSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 function Slider(props) {

@@ -1,7 +1,7 @@
 import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { selectMode } from "../../calculator/calculatorSlice";
+import { selectMode } from "../calculatorRedux/calculatorSlice";
 import { useSelector } from "react-redux";
 
 export function Draggable(props) {

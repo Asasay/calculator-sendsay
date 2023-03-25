@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { calculate, selectMode } from "../calculator/calculatorSlice";
+import { calculate, selectMode } from "../calculatorRedux/calculatorSlice";
 import { SectionContext } from "./Section";
 
 function Button(props) {

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useSelector } from "react-redux";
-import { selectDisplay } from "../calculator/calculatorSlice";
+import { selectDisplay } from "../calculatorRedux/calculatorSlice";
 import { SectionContext } from "./Section";
 
 function Display() {

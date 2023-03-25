@@ -2,9 +2,6 @@ import {
   closestCenter,
   DndContext,
   DragOverlay,
-  KeyboardSensor,
-  MouseSensor,
-  TouchSensor,
   PointerSensor,
   useSensor,
   useSensors,
@@ -12,12 +9,12 @@ import {
 import React from "react";
 import ConstructorBlank from "./features/ConstructorBlank";
 import Display from "./features/Display";
-import { Draggable } from "./features/dnd/Draggable";
+import { Draggable } from "./features/Draggable";
 import Equal from "./features/Equal";
 import Numpad from "./features/Numpad";
 import Operators from "./features/Operators";
 import Section from "./features/Section";
-import Slider from "./features/slider/Slider";
+import Slider from "./features/Slider";
 import "./styles/Calculator.scss";
 
 import {
@@ -26,7 +23,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useSelector } from "react-redux";
-import { selectMode } from "./calculator/calculatorSlice";
+import { selectMode } from "./calculatorRedux/calculatorSlice";
 
 function Calculator() {
   const mode = useSelector(selectMode);
@@ -106,41 +103,54 @@ function Calculator() {
 
   function handleDragEnd(event) {
     const { active, over } = event;
-    if (over.data.current?.container === "Elements") return;
-    if (active.id === over.id) return;
+    // Skip if the active and over elements are the same or over a left container
+    if (active.id === over.id || over.data.current?.container === "Elements")
+      return;
 
-    const newConstructorBar = active.data.current;
-    newConstructorBar.barId = newConstructorBar.barId.substring(
-      0,
-      newConstructorBar.barId.indexOf("_")
-    );
-    newConstructorBar.barId += "_constructor";
+    // Clone the active bar and update its properties
+    const newConstructorBar = { ...active.data.current };
+    newConstructorBar.barId =
+      newConstructorBar.barId.substring(
+        0,
+        newConstructorBar.barId.indexOf("_")
+      ) + "_constructor";
     newConstructorBar.container = "Constructor";
 
+    // Create an invisible anchor element for sorting to be placed at the end of right panel
+    const anchor = {
+      barId: "anchor",
+      bar: <React.Fragment />,
+      container: "Constructor",
+    };
+
+    // If right panel is empty place active bar and anchor
     if (constructorBars.length === 0) {
-      setConstructorBars([newConstructorBar]);
-    } else
+      setConstructorBars([newConstructorBar, anchor]);
+    } else {
+      // Else update the constructor bars array, which represents right panel
       setConstructorBars((constructorBars) => {
+        // Get the indices of the active and over bars
         const oldIndex = constructorBars.findIndex(
           (cb) => cb.barId === active.id
         );
         const newIndex = constructorBars.findIndex(
           (cb) => cb.barId === over.id
         );
-
-        if (oldIndex === -1) {
-          if (newIndex === -1)
-            return constructorBars.slice().push(newConstructorBar);
-          else {
-            var constructorBarsArray = constructorBars.slice();
-            constructorBarsArray.splice(newIndex, 0, newConstructorBar);
-            return constructorBarsArray;
-          }
+        // Clone the constructor bars state array to avoid mutating the state directly
+        var constructorBarsArray = constructorBars.slice();
+        // Insert the new bar if the active bar is from the left panel
+        if (active.data.current.container === "Elements") {
+          constructorBarsArray.splice(newIndex, 0, newConstructorBar);
+          return constructorBarsArray;
         }
-
-        return arrayMove(constructorBars, oldIndex, newIndex);
+        // Else move the active bar to the new position
+        if (newIndex > oldIndex)
+          // Move Down in the list
+          return arrayMove(constructorBars, oldIndex, newIndex - 1);
+        // Move Up in the list
+        else return arrayMove(constructorBars, oldIndex, newIndex);
       });
-
+    }
     setActiveComp(null);
   }
 }

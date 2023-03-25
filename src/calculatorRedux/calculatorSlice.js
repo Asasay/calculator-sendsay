@@ -2,9 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   mode: "constructor",
-  elements: [],
-  constructor: [],
-  isDragging: false,
   display: "",
   formula: "",
   evaluation: "",
@@ -13,13 +10,9 @@ const initialState = {
 export const calculatorSlice = createSlice({
   name: "calculator",
   initialState,
-  // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     toggleMode: (state) => {
       state.mode = state.mode === "constructor" ? "runtime" : "constructor";
-    },
-    insertToConstructor: (state, action) => {
-      state.constructor.splice(action.payload.index, 0, action.payload.element);
     },
     setDisplay: (state, action) => {
       state.display = action.payload;
@@ -33,26 +26,14 @@ export const calculatorSlice = createSlice({
   },
 });
 
-export const {
-  toggleMode,
-  insertToConstructor,
-  setDisplay,
-  setFormula,
-  setEvaluation,
-} = calculatorSlice.actions;
+export const { toggleMode, setDisplay, setFormula, setEvaluation } =
+  calculatorSlice.actions;
 
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const selectDisplay = (state) => state.calculator.display;
 export const selectFormula = (state) => state.calculator.formula;
 export const selectEvaluation = (state) => state.calculator.evaluation;
 export const selectMode = (state) => state.calculator.mode;
-export const selectElements = (state) => state.calculator.elements;
-export const selectConstructor = (state) => state.calculator.constructor;
 
-// We can also write thunks by hand, which may contain both sync and async logic.
-// Here's an example of conditionally dispatching actions based on current state.
 const isNumber = (str) =>
   str.length === str.trim().length && str.length > 0 && Number(str) >= 0;
 
@@ -102,7 +83,6 @@ export const calculate = (btnValue) => (dispatch, getState) => {
       break;
     case ",":
       if (isNumber(display.replace(",", "."))) {
-        //if not integer break
         if (!/^-?(0|[1-9]\d*)$/.test(display.replace(",", "."))) break;
         dispatch(setDisplay(display + ","));
         dispatch(setFormula(formula + "."));

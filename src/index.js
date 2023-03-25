@@ -1,7 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
-import { store } from "./calculator/store";
+import { store } from "./calculatorRedux/store";
 import Calculator from "./Calculator";
 import reportWebVitals from "./reportWebVitals";
 import "./styles/index.css";
