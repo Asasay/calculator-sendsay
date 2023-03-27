@@ -47,7 +47,8 @@ export const calculate = (btnValue) => (dispatch, getState) => {
       if (formula.includes("=")) break;
       if (!/\d/.test(formula)) break;
       let cleanFormula = formula.replace(/\D+([+*/])/g, "$1");
-      cleanFormula = cleanFormula.replace(/-(-\d)/g, "$1");
+      cleanFormula = cleanFormula.replace(/-*(-\d)/g, "$1");
+      cleanFormula = cleanFormula.replace(/(?<![\.\d])0+([1-9]+)/g, "$1");
       const result = eval(cleanFormula).toString();
       dispatch(setDisplay(result.replace(".", ",")));
       dispatch(setFormula(cleanFormula + "=" + result));
